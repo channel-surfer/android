@@ -1,4 +1,4 @@
-package org.jupl.channelsurfer
+package org.channelsurfer.android
 
 import org.junit.Test
 import org.junit.runner.RunWith

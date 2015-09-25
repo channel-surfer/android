@@ -24,7 +24,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'org.jupl.channelsurfer'
+        applicationId 'org.channelsurfer.android'
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
