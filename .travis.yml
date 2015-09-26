@@ -21,8 +21,8 @@ before_script:
   - TERM=dumb
 
 script:
-  - ./gradlew test jacocoTestReport
-  # - ./gradlew test assemble connectedCheck jacocoTestReport
+  - ./gradlew test jacocoTestReport --stacktrace
+    # - ./gradlew test assemble connectedCheck jacocoTestReport --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
