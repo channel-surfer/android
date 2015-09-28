@@ -1,5 +1,6 @@
-package org.channelsurfer.android
+package org.channelsurfer.android.posts
 
+import org.channelsurfer.android.BuildConfig
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -9,9 +10,9 @@ import kotlin.test.*
 
 @RunWith(RobolectricGradleTestRunner::class)
 @Config(constants = BuildConfig::class)
-final public class MainActivityTest {
-    @Test fun text() {
-        val activity = Robolectric.setupActivity(MainActivity::class.java)
-        assertEquals(activity.helloTextView.text, "Hello world!")
+    public class PostsActivityTest {
+    @Test fun title() {
+        val activity = Robolectric.setupActivity(PostsActivity::class.java)
+        assertEquals(activity.supportActionBar.title, "Channel Surfer")
     }
 }

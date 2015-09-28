@@ -4,14 +4,14 @@ jdk: oraclejdk8
 
 # env:
 #   matrix:
-#     - ANDROID_TARGET=android-15 ANDROID_ABI=armeabi-v7a
+#     - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
 android:
   components:
     - build-tools-22.0.1
     - extra-android-m2repository
     - android-22
-    # - sys-img-armeabi-v7a-android-15
+    # - sys-img-armeabi-v7a-android-22
 
 before_script:
   # - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
@@ -20,9 +20,14 @@ before_script:
   # - adb shell input keyevent 82 &
   - TERM=dumb
 
+cache:
+  directories:
+    - $HOME/.gradle
+    - $HOME/.m2
+
 script:
-  - ./gradlew test jacocoTestReport --stacktrace
-    # - ./gradlew test assemble connectedCheck jacocoTestReport --stacktrace
+  - ./gradlew testDebugUnitTest jacocoTestReport --stacktrace
+  # - ./gradlew testDebugUnitTest assemble connectedDebugAndroidTest jacocoTestReport --stacktrace
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

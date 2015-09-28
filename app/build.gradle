@@ -2,9 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'jacoco'
 
+ext.build_tools_version = '22.0.1'
+ext.sdk_version = build_tools_version.tokenize('.')[0].toInteger()
+ext.support_version = "$sdk_version.+"
+
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion sdk_version
+    buildToolsVersion build_tools_version
 
     buildTypes {
         release {
@@ -30,13 +34,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'org.jetbrains.anko:anko-sdk15:0.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.1'
 }
 
 jacoco {
@@ -55,7 +61,8 @@ task jacocoTestReport(type: JacocoReport) {
                       '**/BuildConfig.*',
                       '**/Manifest*.*',
                       '**/*Test*.*',
-                      'android/**/*.*']
+                      'android/**/*.*',
+                      '**/*$$special$$inlined$observable$*.*']
 
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
 
