@@ -2,17 +2,22 @@ package org.channelsurfer.android.posts
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import org.jetbrains.anko.toast
 
 public class PostsActivity() : AppCompatActivity() {
-    val postsFragment by lazy { fragmentManager.findFragmentByTag(PostsFragment.TAG) as PostsFragment }
+    lateinit var postsFragment: PostsFragment
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(savedInstanceState == null) {
-            val fragment = PostsFragment()
-            fragmentManager.beginTransaction().add(android.R.id.content, fragment, PostsFragment.TAG).commit()
-            fragment.listAdapter = PostsAdapter(this)
-            fragment.setOnItemClickListener { println(it) }
+            postsFragment = PostsFragment()
+            val adapter = PostsAdapter(this) { toast("Clicked ${it.id}") }
+            fragmentManager.beginTransaction().add(android.R.id.content, postsFragment, PostsFragment.TAG).commit()
+            postsFragment.adapter = adapter
+        }
+        else {
+            postsFragment = fragmentManager.findFragmentByTag(PostsFragment.TAG) as PostsFragment
         }
     }
 }

@@ -1,11 +1,10 @@
 package org.channelsurfer.android.posts
 
+import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
-import org.channelsurfer.android.getNullableString
-import org.channelsurfer.android.int
-import org.channelsurfer.android.nullableString
-import org.channelsurfer.android.string
+import org.channelsurfer.android.*
+import org.channelsurfer.android.base.Network
 import org.json.JSONObject
 import java.util.*
 
@@ -31,6 +30,7 @@ open public data class Post(
                     lastModified = parcelIn.int)
             override fun newArray(size: Int) = arrayOfNulls<Post>(size)
         }
+
         fun fromJSON(json: JSONObject) = Post(
                 no=json.getInt("no"),
                 com=json.getString("com"),
@@ -40,12 +40,23 @@ open public data class Post(
                 sticky=json.getInt("sticky"),
                 locked=json.getInt("locked"),
                 lastModified=json.getInt("last_modified"))
+
+        fun fetch(context: Context, callback: (Array<Post>?, Exception?) -> Unit) {
+            Network(context).jsonArray(url="https://8ch.net/tech/catalog.json") { response, error ->
+                val posts = response
+                        ?.toObjectArray()
+                        ?.flatMap { it.getJSONArray("threads").toObjectArray() }
+                        ?.map { Post.fromJSON(it) }
+                        ?.toTypedArray()
+                callback(posts, error)
+            }
+        }
     }
 
     val id = no
     val body = com
-    val isSticky = sticky == 1
-    val isLocked = locked == 1
+    val isSticky by lazy { sticky == 1 }
+    val isLocked by lazy { locked == 1 }
     val createdAt by lazy { Date(time.toLong() * 1000) }
     val updatedAt by lazy { Date(lastModified.toLong() * 1000) }
     val title by lazy { if(sub != null) "$no - $sub" else "$no" }

@@ -11,40 +11,57 @@ import com.android.volley.toolbox.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-public class Network private constructor(private val queue: RequestQueue) {
+public class Network(context: Context) {
     companion object {
-        private var instance: Network? = null
-        fun instance(context: Context): Network {
-            instance = instance ?: Network(Volley.newRequestQueue(context.applicationContext))
-            return instance!!
-        }
+        private var queue: RequestQueue? = null
     }
 
-    fun image(url: String, maxWidth: Int = 0, maxHeight: Int = 0, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_INSIDE, decodeConfig: Bitmap.Config, callback: (Bitmap?, VolleyError?) -> Unit): ImageRequest {
+    init { queue = queue ?: Volley.newRequestQueue(context.applicationContext) }
+
+    fun image(
+            url: String,
+            maxWidth: Int = 0,
+            maxHeight: Int = 0,
+            scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_INSIDE,
+            decodeConfig: Bitmap.Config,
+            callback: (Bitmap?, VolleyError?) -> Unit): ImageRequest {
         val listeners = Listeners(callback)
-        val request = ImageRequest(url, listeners.listener, maxWidth, maxHeight, scaleType, decodeConfig, listeners.errorListener)
-        queue.add(request)
+        val request = ImageRequest(
+                url, listeners.listener,
+                maxWidth, maxHeight, scaleType, decodeConfig, listeners.errorListener)
+        queue!!.add(request)
         return request
     }
 
-    fun jsonArray(method: Int = Request.Method.GET, url: String, body: String? = null, callback: (JSONArray?, VolleyError?) -> Unit): JsonArrayRequest {
+    fun jsonArray(
+            method: Int = Request.Method.GET,
+            url: String,
+            body: String? = null,
+            callback: (JSONArray?, VolleyError?) -> Unit): JsonArrayRequest {
         val listeners = Listeners(callback)
         val request = JsonArrayRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue.add(request)
+        queue!!.add(request)
         return request
     }
 
-    fun jsonObject(method: Int = Request.Method.GET, url: String, body: String? = null, callback: (JSONObject?, VolleyError?) -> Unit): JsonObjectRequest {
+    fun jsonObject(
+            method: Int = Request.Method.GET,
+            url: String,
+            body: String? = null,
+            callback: (JSONObject?, VolleyError?) -> Unit): JsonObjectRequest {
         val listeners = Listeners(callback)
         val request = JsonObjectRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue.add(request)
+        queue!!.add(request)
         return request
     }
 
-    fun string(method: Int = Request.Method.GET, url: String, callback: (String?, VolleyError?) -> Unit): StringRequest {
+    fun string(
+            method: Int = Request.Method.GET,
+            url: String,
+            callback: (String?, VolleyError?) -> Unit): StringRequest {
         val listeners = Listeners(callback)
         val request = StringRequest(method, url, listeners.listener, listeners.errorListener)
-        queue.add(request)
+        queue!!.add(request)
         return request
     }
 

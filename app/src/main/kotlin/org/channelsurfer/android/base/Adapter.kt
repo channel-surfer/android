@@ -1,14 +1,17 @@
 package org.channelsurfer.android.base
 
-import android.widget.BaseAdapter
+import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
 import kotlin.properties.Delegates
 
-public abstract class Adapter<T>(initial: Array<T>) : BaseAdapter() {
-    var data: Array<T> by Delegates.observable(initial) { prop, old, new -> notifyDataSetChanged() }
+public open class Adapter<T, U : ViewHolder<T, *>>(data: Array<T>) : RecyclerView.Adapter<U>() {
+    var data: Array<T> by Delegates.observable(data) { prop, old, new -> if(old != new) notifyDataSetChanged() }
 
     open fun update(callback: (Exception?) -> Unit = {}) = callback(null)
 
-    override fun getCount() = data.size()
-    override fun getItem(position: Int) = data[position]
-    override fun getItemId(position: Int) = position.toLong()
+    override fun getItemCount() = data.size()
+
+    override fun onBindViewHolder(holder: U, position: Int) = holder.update(data[position])
+
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): U? = null
 }

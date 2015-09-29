@@ -25,8 +25,7 @@ public class PostsFragmentTest : ActivityInstrumentationTestCase2<PostsActivity>
     fun testSwipeToUpdate() {
         var calls = 0
         runTestOnUiThread {
-            fragment.listAdapter = object : Adapter<Post>(arrayOf()) {
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? = null
+            fragment.adapter = object: Adapter<Post, PostsItemView.Holder>(arrayOf()) {
                 override fun update(callback: (Exception?) -> Unit) {
                     calls++
                     callback(null)

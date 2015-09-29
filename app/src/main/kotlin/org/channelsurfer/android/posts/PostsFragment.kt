@@ -1,15 +1,10 @@
 package org.channelsurfer.android.posts
 
-import android.os.Bundle
-import org.channelsurfer.android.base.SwipeRefreshListFragment
+import org.channelsurfer.android.base.SwipeRefreshRecyclerFragment
 
-public class PostsFragment: SwipeRefreshListFragment<Post>() {
+public class PostsFragment(onUpdated: (Exception?) -> Unit = {}) :
+        SwipeRefreshRecyclerFragment<Post, PostsItemView.Holder>(arrayOf(), onUpdated) {
     companion object {
         val TAG = "PostsFragment"
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        swipeView.setOnRefreshListener { listAdapter.update { swipeView.isRefreshing = false } }
     }
 }
