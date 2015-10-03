@@ -1,8 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="postHeaderBackgroundColor" format="color" />
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="app.dark" parent="Theme.AppCompat">
+        <item name="actionOverflowMenuStyle">@style/menu.dark</item>
+        <item name="cardBackgroundColor">@color/dark_card_background</item>
+        <item name="colorPrimary">@color/dark_primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary_dark</item>
+        <item name="colorAccent">@color/dark_accent</item>
+        <item name="postHeaderBackgroundColor">@color/dark_post_header_background</item>
+        <item name="android:windowBackground">@color/dark_window_background</item>
     </style>
 
+    <style name="app.light" parent="Theme.AppCompat.Light">
+        <item name="actionOverflowMenuStyle">@style/menu.light</item>
+        <item name="cardBackgroundColor">@color/light_card_background</item>
+        <item name="colorPrimary">@color/light_primary</item>
+        <item name="colorPrimaryDark">@color/light_primary_dark</item>
+        <item name="colorAccent">@color/light_accent</item>
+        <item name="postHeaderBackgroundColor">@color/light_post_header_background</item>
+        <item name="android:windowBackground">@color/light_window_background</item>
+    </style>
+
+    <style name="menu.dark" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/dark_primary</item>
+    </style>
+
+    <style name="menu.light" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/light_primary</item>
+    </style>
 </resources>

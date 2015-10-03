@@ -5,6 +5,8 @@ import android.os.SystemClock
 import android.view.ViewGroup
 import android.widget.TextView
 import org.channelsurfer.android.BuildConfig
+import org.channelsurfer.android.posts.Post
+import org.channelsurfer.android.posts.SamplePost
 import org.jetbrains.anko.async
 import org.junit.Before
 import org.junit.Ignore
@@ -18,7 +20,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricGradleTestRunner::class)
 @Config(constants = BuildConfig::class)
 public class AdapterTest {
-    val adapter = object : Adapter<Int, ViewHolder>(arrayOf()) {
+    val adapter = object : Adapter<SamplePost, ViewHolder>(arrayOf()) {
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
             return ViewHolder(RuntimeEnvironment.application.applicationContext)
         }
@@ -38,26 +40,24 @@ public class AdapterTest {
     @Ignore @Test fun update() {
         assertEquals(updatedCount, 0)
 
-        async { adapter.data = arrayOf(1) }
+        async { adapter.data = arrayOf(SamplePost()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 1)
 
-        async { adapter.data = arrayOf() }
+        async { adapter.data = arrayOf(SamplePost()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 2)
     }
 
     @Test fun properties() {
         assertEquals(adapter.data.size(), adapter.itemCount)
-        adapter.data += arrayOf(5, 6, 7)
+        adapter.data += arrayOf(SamplePost(), SamplePost(), SamplePost())
         assertEquals(adapter.data.size(), adapter.itemCount)
     }
 
-    class ViewHolder(val view: TextView) : org.channelsurfer.android.base.ViewHolder<Int, TextView>(view) {
-        constructor(context: Context) : this(TextView(context))
-
-        override fun update(data: Int) {
-            view.text = data.toString()
+    class ViewHolder(context: Context) : org.channelsurfer.android.base.ViewHolder<SamplePost, TextView>(TextView(context)) {
+        override fun update(data: SamplePost) {
+            view.text = data.body
         }
     }
 }

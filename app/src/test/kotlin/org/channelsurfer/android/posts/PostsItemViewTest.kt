@@ -1,6 +1,5 @@
 package org.channelsurfer.android.posts
 
-import android.text.Html
 import org.channelsurfer.android.BuildConfig
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,11 +19,11 @@ public class PostsItemViewTest {
         val post2 = post.copy(com="Sample Body")
         val holder = PostsItemView.Holder(context)
         holder.update(post)
-        assertEquals(holder.view.bodyView.text, Html.fromHtml(post.body))
-        assertNotEquals(holder.view.bodyView.text, Html.fromHtml(post2.body))
+        assertEquals(holder.view.body.text, post.body)
+        assertNotEquals(holder.view.body.text, post2.body)
 
         holder.update(post2)
-        assertNotEquals(holder.view.bodyView.text, Html.fromHtml(post.body))
-        assertEquals(holder.view.bodyView.text, Html.fromHtml(post2.body))
+        assertNotEquals(holder.view.body.text, post.body)
+        assertEquals(holder.view.body.text, post2.body)
     }
 }

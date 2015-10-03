@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="replies">
+        <item quantity="one">%d reply</item>
+        <item quantity="other">%d replies</item>
+    </plurals>
+</resources>

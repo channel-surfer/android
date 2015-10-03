@@ -2,9 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'jacoco'
 
-ext.build_tools_version = '22.0.1'
+ext.build_tools_version = '23.0.1'
 ext.sdk_version = build_tools_version.tokenize('.')[0].toInteger()
 ext.support_version = "$sdk_version.+"
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
 
 android {
     compileSdkVersion sdk_version
@@ -37,9 +41,14 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
+    compile 'com.github.mcginty:material-colors:1.0.1'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.mikepenz:iconics-core:1.7.6@aar'
+    compile 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
+    compile 'com.mikepenz:community-material-typeface:1.2.64.1@aar'
     compile 'org.jetbrains.anko:anko-sdk15:0.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'
     testCompile('org.robolectric:robolectric:3.0') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
@@ -75,14 +84,10 @@ task jacocoTestReport(type: JacocoReport) {
     executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
 
     reports {
-        xml {
-            enabled = true
-            destination = "$project.buildDir/reports/jacoco/test/jacocoTestReport.xml"
-        }
-        csv.enabled false
-        html {
-            enabled = true
-            destination = "$project.buildDir/reports/jacoco"
-        }
+        xml.enabled = true
+        xml.destination = "$project.buildDir/reports/jacoco/test/jacocoTestReport.xml"
+        csv.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/reports/jacoco"
     }
 }

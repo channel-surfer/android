@@ -1,0 +1,72 @@
+package org.channelsurfer.android.base
+
+import android.app.Activity
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.os.Parcel
+import android.text.Html
+import android.util.TypedValue
+import android.view.ViewManager
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
+import com.mikepenz.iconics.view.IconicsTextView
+import org.channelsurfer.android.R
+import org.jetbrains.anko.custom.ankoView
+import org.jetbrains.anko.internals.AnkoInternals
+import org.json.JSONArray
+import org.json.JSONObject
+import org.ocpsoft.prettytime.PrettyTime
+import java.util.*
+
+private var globalRequestQueue: RequestQueue? = null
+
+val Date.unixTime: Int get() = (time / 1000).toInt()
+
+val Context.selectableItemBackground: Drawable get() {
+    val typedArray = obtainStyledAttributes(intArrayOf(android.R.attr.selectableItemBackground))
+    val selectableItemBackground = typedArray.getDrawable(0)
+    typedArray.recycle()
+    return selectableItemBackground
+}
+
+val Context.globalNetwork: Network get() {
+    globalRequestQueue = globalRequestQueue ?: Volley.newRequestQueue(applicationContext)
+    return Network(globalRequestQueue!!)
+}
+
+val Context.themeResId: Int get() = javaClass.getMethod("getThemeResId").invoke(this) as Int
+
+val JSONArray.objectList: List<JSONObject> get() = (1..length()).map { getJSONObject(it - 1) }
+
+var Parcel.int: Int
+    get() = readInt()
+    set(value) = writeInt(value)
+
+var Parcel.string: String
+    get() = readString()
+    set(value) = writeString(value)
+
+var Parcel.nullableString: String?
+    get() = if(int == 1) string else null
+    set(value) {
+        int = if(value != null) 1 else 0
+        if(value != null) string = value
+    }
+
+val String.fromHtml: CharSequence get() = with(Html.fromHtml(this)) {
+    var start = 0
+    var end = length()
+    while(start < end && Character.isWhitespace(charAt(start))) start++
+    while(end > start && Character.isWhitespace(charAt(end - 1))) end--
+    return subSequence(start, end)
+}
+
+inline fun <reified T : Activity> Activity.startActivity(vararg params: Pair<String, Any>) {
+    AnkoInternals.internalStartActivityForResult(this, T::class.java, 0, params)
+}
+
+fun Context.prettyFormat(date: Date) = PrettyTime(resources.configuration.locale).format(date)
+
+fun JSONObject.getNullableString(key: String): String? = if(has(key)) getString(key) else null
+
+fun ViewManager.iconicsTextView(init: IconicsTextView.() -> Unit = {}) = ankoView({ IconicsTextView(it) }, init)

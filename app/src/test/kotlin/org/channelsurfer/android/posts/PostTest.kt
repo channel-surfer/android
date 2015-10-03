@@ -2,7 +2,7 @@ package org.channelsurfer.android.posts
 
 import android.os.Parcel
 import org.channelsurfer.android.BuildConfig
-import org.channelsurfer.android.unixTime
+import org.channelsurfer.android.base.unixTime
 import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,15 +19,16 @@ public class PostTest {
         val now = Date()
         json.put("no", 1)
         json.put("com", "Sample 2")
+        json.put("name", "Anonymous")
         json.put("time", now.unixTime)
         json.put("replies", 2)
         json.put("sticky", 1)
         json.put("locked", 1)
         json.put("last_modified", now.unixTime)
 
-        val post = Post.fromJSON(json)
+        val post = json.post
         assertEquals(post.id, 1)
-        assertEquals(post.body, "Sample 2")
+        assertEquals(post.body.toString(), "Sample 2")
         assertEquals(post.createdAt.unixTime, now.unixTime)
         assertEquals(post.replies, 2)
         assertTrue(post.isSticky)

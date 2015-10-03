@@ -1,6 +1,5 @@
 package org.channelsurfer.android.base
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.widget.ImageView
 import com.android.volley.Request
@@ -11,13 +10,7 @@ import com.android.volley.toolbox.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-public class Network(context: Context) {
-    companion object {
-        private var queue: RequestQueue? = null
-    }
-
-    init { queue = queue ?: Volley.newRequestQueue(context.applicationContext) }
-
+public class Network(private val queue: RequestQueue) {
     fun image(
             url: String,
             maxWidth: Int = 0,
@@ -29,7 +22,7 @@ public class Network(context: Context) {
         val request = ImageRequest(
                 url, listeners.listener,
                 maxWidth, maxHeight, scaleType, decodeConfig, listeners.errorListener)
-        queue!!.add(request)
+        queue.add(request)
         return request
     }
 
@@ -40,7 +33,7 @@ public class Network(context: Context) {
             callback: (JSONArray?, VolleyError?) -> Unit): JsonArrayRequest {
         val listeners = Listeners(callback)
         val request = JsonArrayRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue!!.add(request)
+        queue.add(request)
         return request
     }
 
@@ -51,7 +44,7 @@ public class Network(context: Context) {
             callback: (JSONObject?, VolleyError?) -> Unit): JsonObjectRequest {
         val listeners = Listeners(callback)
         val request = JsonObjectRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue!!.add(request)
+        queue.add(request)
         return request
     }
 
@@ -61,7 +54,7 @@ public class Network(context: Context) {
             callback: (String?, VolleyError?) -> Unit): StringRequest {
         val listeners = Listeners(callback)
         val request = StringRequest(method, url, listeners.listener, listeners.errorListener)
-        queue!!.add(request)
+        queue.add(request)
         return request
     }
 

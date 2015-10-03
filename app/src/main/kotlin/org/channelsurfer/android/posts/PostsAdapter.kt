@@ -15,7 +15,7 @@ public class PostsAdapter(
 
     override fun update(callback: (Exception?) -> Unit) {
         async {
-            Post.fetch(context) { posts, error ->
+            context.fetchPosts { posts, error ->
                 uiThread {
                     data = posts ?: data
                     callback(error)
