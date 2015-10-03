@@ -17,10 +17,9 @@ public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: A
 
     private var defaultLayoutManager: RecyclerView.LayoutManager? = null
     lateinit var recyclerView: RecyclerView private set
-    private var initialAdapter = Adapter<T, U>(data)
-    var adapter: Adapter<T, U>
-        get() = if(view != null) recyclerView.adapter as Adapter<T, U> else initialAdapter
-        set(value) = if(view != null) recyclerView.adapter = value else initialAdapter = value
+    var adapter: Adapter<T, U> = Adapter<T, U>(data)
+        get() = if(view != null) recyclerView.adapter as Adapter<T, U> else field
+        set(value) = if(view != null) recyclerView.adapter = value else field = value
     var layoutManager: RecyclerView.LayoutManager
         get() = if(view != null) recyclerView.layoutManager else {
             defaultLayoutManager = defaultLayoutManager ?: LinearLayoutManager(activity)
