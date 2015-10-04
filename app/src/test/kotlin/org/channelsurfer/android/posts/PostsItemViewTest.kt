@@ -13,7 +13,7 @@ import kotlin.test.assertNotEquals
 @Config(constants = BuildConfig::class)
 public class PostsItemViewTest {
     var context = RuntimeEnvironment.application.applicationContext
-    var post = SamplePost()
+    var post = createSamplePost()
 
     @Test fun update() {
         val post2 = post.copy(com="Sample Body")

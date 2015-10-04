@@ -17,7 +17,8 @@ public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: A
 
     private var defaultLayoutManager: RecyclerView.LayoutManager? = null
     lateinit var recyclerView: RecyclerView private set
-    var adapter: Adapter<T, U> = Adapter<T, U>(data)
+    @Suppress("UNCHECKED_CAST")
+    var adapter: Adapter<T, U> = Adapter(data)
         get() = if(view != null) recyclerView.adapter as Adapter<T, U> else field
         set(value) = if(view != null) recyclerView.adapter = value else field = value
     var layoutManager: RecyclerView.LayoutManager

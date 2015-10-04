@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import org.channelsurfer.android.BuildConfig
 import org.channelsurfer.android.posts.Post
-import org.channelsurfer.android.posts.SamplePost
+import org.channelsurfer.android.posts.createSamplePost
 import org.jetbrains.anko.async
 import org.junit.Before
 import org.junit.Ignore
@@ -20,7 +20,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricGradleTestRunner::class)
 @Config(constants = BuildConfig::class)
 public class AdapterTest {
-    val adapter = object : Adapter<SamplePost, ViewHolder>(arrayOf()) {
+    val adapter = object : Adapter<Post, ViewHolder>(arrayOf()) {
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
             return ViewHolder(RuntimeEnvironment.application.applicationContext)
         }
@@ -40,23 +40,23 @@ public class AdapterTest {
     @Ignore @Test fun update() {
         assertEquals(updatedCount, 0)
 
-        async { adapter.data = arrayOf(SamplePost()) }
+        async { adapter.data = arrayOf(createSamplePost()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 1)
 
-        async { adapter.data = arrayOf(SamplePost()) }
+        async { adapter.data = arrayOf(createSamplePost()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 2)
     }
 
     @Test fun properties() {
         assertEquals(adapter.data.size(), adapter.itemCount)
-        adapter.data += arrayOf(SamplePost(), SamplePost(), SamplePost())
+        adapter.data += arrayOf(createSamplePost(), createSamplePost(), createSamplePost())
         assertEquals(adapter.data.size(), adapter.itemCount)
     }
 
-    class ViewHolder(context: Context) : org.channelsurfer.android.base.ViewHolder<SamplePost, TextView>(TextView(context)) {
-        override fun update(data: SamplePost) {
+    class ViewHolder(context: Context) : org.channelsurfer.android.base.ViewHolder<Post, TextView>(TextView(context)) {
+        override fun update(data: Post) {
             view.text = data.body
         }
     }

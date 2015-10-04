@@ -8,7 +8,7 @@ import org.channelsurfer.android.base.nullableString
 import org.channelsurfer.android.base.string
 import java.util.*
 
-public open data class Post(
+public data class Post(
         private val no: Int,
         private val com: String,
         private val email: String?,

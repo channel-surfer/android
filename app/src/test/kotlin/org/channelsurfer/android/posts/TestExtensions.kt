@@ -3,7 +3,7 @@ package org.channelsurfer.android.posts
 import org.channelsurfer.android.base.unixTime
 import java.util.*
 
-public class SamplePost(
+fun createSamplePost(
         no: Int = 0,
         com: String = "Sample",
         email: String? = null,
@@ -15,4 +15,6 @@ public class SamplePost(
         replies: Int = 0,
         sticky: Int = 0,
         locked: Int = 0,
-        lastModified: Int = time) : Post(no, com, email, name, capcode, trip, sub, time, replies, sticky, locked, lastModified)
+        lastModified: Int = time): Post {
+    return Post(no, com, email, name, capcode, trip, sub, time, replies, sticky, locked, lastModified)
+}

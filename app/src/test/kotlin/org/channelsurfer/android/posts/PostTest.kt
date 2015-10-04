@@ -38,7 +38,7 @@ public class PostTest {
 
     @Test fun parcel() {
         val parcel = Parcel.obtain()
-        val post1 = SamplePost()
+        val post1 = createSamplePost()
         post1.writeToParcel(parcel, flags=0)
         parcel.setDataPosition(0)
 
