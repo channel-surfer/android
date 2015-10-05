@@ -28,12 +28,6 @@ android {
         versionCode 1
         versionName '1.0'
     }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
-        androidTest.java.srcDirs += 'src/androidTest/kotlin'
-    }
 }
 
 dependencies {
@@ -77,9 +71,7 @@ task jacocoTestReport(type: JacocoReport) {
 
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
 
-    sourceDirectories = files([
-            "$project.projectDir/src/main/java",
-            "$project.projectDir/src/main/kotlin"])
+    sourceDirectories = files(["$project.projectDir/src/main/java"])
     classDirectories = files([debugTree])
     executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
 
