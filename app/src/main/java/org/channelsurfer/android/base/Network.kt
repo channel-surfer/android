@@ -7,8 +7,6 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.*
-import org.json.JSONArray
-import org.json.JSONObject
 
 public class Network(private val queue: RequestQueue) {
     fun image(
@@ -26,34 +24,15 @@ public class Network(private val queue: RequestQueue) {
         return request
     }
 
-    fun jsonArray(
-            method: Int = Request.Method.GET,
-            url: String,
-            body: String? = null,
-            callback: (JSONArray?, VolleyError?) -> Unit): JsonArrayRequest {
-        val listeners = Listeners(callback)
-        val request = JsonArrayRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue.add(request)
-        return request
-    }
-
-    fun jsonObject(
-            method: Int = Request.Method.GET,
-            url: String,
-            body: String? = null,
-            callback: (JSONObject?, VolleyError?) -> Unit): JsonObjectRequest {
-        val listeners = Listeners(callback)
-        val request = JsonObjectRequest(method, url, body, listeners.listener, listeners.errorListener)
-        queue.add(request)
-        return request
-    }
-
     fun string(
             method: Int = Request.Method.GET,
             url: String,
+            body: String? = null,
             callback: (String?, VolleyError?) -> Unit): StringRequest {
         val listeners = Listeners(callback)
-        val request = StringRequest(method, url, listeners.listener, listeners.errorListener)
+        val request = object : StringRequest(method, url, listeners.listener, listeners.errorListener) {
+            override fun getBody() = body?.toByteArray()
+        }
         queue.add(request)
         return request
     }

@@ -10,11 +10,8 @@ import android.view.ViewManager
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.mikepenz.iconics.view.IconicsTextView
-import org.channelsurfer.android.R
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.internals.AnkoInternals
-import org.json.JSONArray
-import org.json.JSONObject
 import org.ocpsoft.prettytime.PrettyTime
 import java.util.*
 
@@ -35,8 +32,6 @@ val Context.globalNetwork: Network get() {
 }
 
 val Context.themeResId: Int get() = javaClass.getMethod("getThemeResId").invoke(this) as Int
-
-val JSONArray.objectList: List<JSONObject> get() = (1..length()).map { getJSONObject(it - 1) }
 
 var Parcel.int: Int
     get() = readInt()
@@ -66,7 +61,5 @@ inline fun <reified T : Activity> Activity.startActivity(vararg params: Pair<Str
 }
 
 fun Context.prettyFormat(date: Date) = PrettyTime(resources.configuration.locale).format(date)
-
-fun JSONObject.getNullableString(key: String): String? = if(has(key)) getString(key) else null
 
 fun ViewManager.iconicsTextView(init: IconicsTextView.() -> Unit = {}) = ankoView({ IconicsTextView(it) }, init)

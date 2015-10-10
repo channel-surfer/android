@@ -36,6 +36,7 @@ dependencies {
     compile "com.android.support:cardview-v7:$support_version"
     compile "com.android.support:recyclerview-v7:$support_version"
     compile 'com.github.mcginty:material-colors:1.0.1'
+    compile 'com.github.salomonbrys.kotson:kotson:1.4.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.mikepenz:iconics-core:1.7.6@aar'
     compile 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
