@@ -68,7 +68,7 @@ task jacocoTestReport(type: JacocoReport) {
                       '**/Manifest*.*',
                       '**/*Test*.*',
                       'android/**/*.*',
-                      '**/*$$special$$inlined$observable$*.*']
+                      '**/*$$inlined$*.*']
 
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
 
