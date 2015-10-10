@@ -40,7 +40,7 @@ public data class Post(
         }
     }
 
-    val id = no
+    val id by lazy { no }
     val title by lazy { sub?.fromHtml }
     val isSticky by lazy { sticky == 1 }
     val isLocked by lazy { locked == 1 }
@@ -55,6 +55,8 @@ public data class Post(
         header = "<b>$id</b> - $header"
         header.fromHtml
     }
+
+    private constructor() : this(0, "", null, "", null, null, null, 0, 0, 0, 0, 0)
 
     override fun describeContents() = 0
 
