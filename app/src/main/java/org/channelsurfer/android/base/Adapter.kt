@@ -1,12 +1,11 @@
 package org.channelsurfer.android.base
 
-import android.os.Parcelable
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import kotlin.properties.Delegates
 
-public open class Adapter<T : Parcelable, U : ViewHolder<T, *>>(data: Array<T>) : RecyclerView.Adapter<U>() {
-    var data: Array<T> by Delegates.observable(data) { prop, old, new -> if(old != new) notifyDataSetChanged() }
+public open class Adapter<T, U : ViewHolder<T, *>> : RecyclerView.Adapter<U>() {
+    var data: List<T> by Delegates.observable(emptyList()) { prop, old, new -> if(old != new) notifyDataSetChanged() }
 
     open fun update(callback: (Exception?) -> Unit = {}) = callback(null)
 

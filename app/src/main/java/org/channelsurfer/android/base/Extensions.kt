@@ -3,9 +3,7 @@ package org.channelsurfer.android.base
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Parcel
 import android.text.Html
-import android.util.TypedValue
 import android.view.ViewManager
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -32,21 +30,6 @@ val Context.globalNetwork: Network get() {
 }
 
 val Context.themeResId: Int get() = javaClass.getMethod("getThemeResId").invoke(this) as Int
-
-var Parcel.int: Int
-    get() = readInt()
-    set(value) = writeInt(value)
-
-var Parcel.string: String
-    get() = readString()
-    set(value) = writeString(value)
-
-var Parcel.nullableString: String?
-    get() = if(int == 1) string else null
-    set(value) {
-        int = if(value != null) 1 else 0
-        if(value != null) string = value
-    }
 
 val String.fromHtml: CharSequence get() = with(Html.fromHtml(this)) {
     var start = 0

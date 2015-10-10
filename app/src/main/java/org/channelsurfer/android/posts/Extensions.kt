@@ -14,16 +14,16 @@ val gson: Gson = run {
     builder.simpleDeserialize {
         it.asJsonArray.flatMap {
             it.asJsonObject.getAsJsonArray("threads").map { gson.fromJson<Post>(it)!! }
-        }.toTypedArray()
+        }
     }
     builder.create()
 }
 
 // TODO Change later to be a Network extension instead of Context extension
-fun Context.fetchPosts(callback: (Array<Post>?, Exception?) -> Unit) {
+fun Context.fetchPosts(callback: (List<Post>?, Exception?) -> Unit) {
     globalNetwork.string(url="https://8ch.net/tech/catalog.json") { response, error ->
         if(error == null && response != null) {
-            val posts = gson.fromJson<Array<Post>>(response)
+            val posts = gson.fromJson<List<Post>>(response)
             // TODO Remove later as this is temporary caching. This also means context is no longer directly needed
             val editor = getSharedPreferences("threads", Context.MODE_PRIVATE).edit()
             editor.putString("threads", response)
@@ -37,7 +37,7 @@ fun Context.fetchPosts(callback: (Array<Post>?, Exception?) -> Unit) {
 }
 
 // TODO Remove later as this is temporary caching
-val Context.cachedPosts: Array<Post> get() {
+val Context.cachedPosts: List<Post> get() {
     val string = getSharedPreferences("threads", Context.MODE_PRIVATE).getString("threads", "[]")
-    return gson.fromJson<Array<Post>>(string)!!
+    return gson.fromJson<List<Post>>(string)!!
 }

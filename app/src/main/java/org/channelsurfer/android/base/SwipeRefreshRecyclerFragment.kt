@@ -1,16 +1,15 @@
 package org.channelsurfer.android.base
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import java.io.Serializable
 
-public open class SwipeRefreshRecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(
-        data: Array<T>,
-        private val onUpdated: (Exception?) -> Unit = {}) : RecyclerFragment<T, U>(data) {
+public open class SwipeRefreshRecyclerFragment<T : Serializable, U : ViewHolder<T, *>>(
+        private val onUpdated: (Exception?) -> Unit = {}) : RecyclerFragment<T, U>() {
     lateinit var swipeView: SwipeRefreshLayout private set
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) = view ?: run {

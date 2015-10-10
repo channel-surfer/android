@@ -9,8 +9,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.verticalPadding
+import java.util.*
 
-public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: Array<T>) : Fragment() {
+public open class RecyclerFragment<T, U : ViewHolder<T, *>> : Fragment() {
     companion object {
         val TAG = "SwipeRefreshRecyclerFragment"
     }
@@ -18,7 +19,7 @@ public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: A
     private var defaultLayoutManager: RecyclerView.LayoutManager? = null
     lateinit var recyclerView: RecyclerView private set
     @Suppress("UNCHECKED_CAST")
-    var adapter: Adapter<T, U> = Adapter(data)
+    var adapter: Adapter<T, U> = Adapter()
         get() = if(view != null) recyclerView.adapter as Adapter<T, U> else field
         set(value) = if(view != null) recyclerView.adapter = value else field = value
     var layoutManager: RecyclerView.LayoutManager
@@ -42,7 +43,7 @@ public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: A
         super.onViewStateRestored(savedInstanceState)
         if(savedInstanceState != null) {
             val state = savedInstanceState.getParcelable<Parcelable>("$TAG.STATE")
-            val data = savedInstanceState.getParcelableArray("$TAG.DATA") as Array<T>
+            val data = (savedInstanceState.getSerializable("$TAG.DATA") as ArrayList<T>).toList()
             recyclerView.layoutManager.onRestoreInstanceState(state)
             adapter.data = data
         }
@@ -51,6 +52,6 @@ public open class RecyclerFragment<T : Parcelable, U : ViewHolder<T, *>>(data: A
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable("$TAG.STATE", recyclerView.layoutManager.onSaveInstanceState())
-        outState.putParcelableArray("$TAG.DATA", adapter.data)
+        outState.putSerializable("$TAG.DATA", adapter.data.toArrayList())
     }
 }

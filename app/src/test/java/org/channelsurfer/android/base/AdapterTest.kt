@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import org.channelsurfer.android.BuildConfig
 import org.channelsurfer.android.posts.Post
-import org.channelsurfer.android.posts.createSamplePost
 import org.jetbrains.anko.async
 import org.junit.Before
 import org.junit.Ignore
@@ -20,7 +19,7 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricGradleTestRunner::class)
 @Config(constants = BuildConfig::class)
 public class AdapterTest {
-    val adapter = object : Adapter<Post, ViewHolder>(arrayOf()) {
+    val adapter = object : Adapter<Post, ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
             return ViewHolder(RuntimeEnvironment.application.applicationContext)
         }
@@ -32,7 +31,7 @@ public class AdapterTest {
     var updatedCount = 0
 
     @Before fun setup() {
-        adapter.data = arrayOf()
+        adapter.data = emptyList()
         updatedCount = 0
     }
 
@@ -40,18 +39,18 @@ public class AdapterTest {
     @Ignore @Test fun update() {
         assertEquals(updatedCount, 0)
 
-        async { adapter.data = arrayOf(createSamplePost()) }
+        async { adapter.data = listOf(Post()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 1)
 
-        async { adapter.data = arrayOf(createSamplePost()) }
+        async { adapter.data = listOf(Post()) }
         SystemClock.sleep(1000)
         assertEquals(updatedCount, 2)
     }
 
     @Test fun properties() {
         assertEquals(adapter.data.size(), adapter.itemCount)
-        adapter.data += arrayOf(createSamplePost(), createSamplePost(), createSamplePost())
+        adapter.data += listOf(Post(), Post(), Post())
         assertEquals(adapter.data.size(), adapter.itemCount)
     }
 

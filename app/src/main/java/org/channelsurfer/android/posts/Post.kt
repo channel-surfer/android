@@ -1,11 +1,7 @@
 package org.channelsurfer.android.posts
 
-import android.os.Parcel
-import android.os.Parcelable
 import org.channelsurfer.android.base.fromHtml
-import org.channelsurfer.android.base.int
-import org.channelsurfer.android.base.nullableString
-import org.channelsurfer.android.base.string
+import java.io.Serializable
 import java.util.*
 
 public data class Post(
@@ -20,26 +16,7 @@ public data class Post(
         val replies: Int,
         private val sticky: Int,
         private val locked: Int,
-        private val lastModified: Int) : Parcelable {
-    companion object {
-        val CREATOR: Parcelable.Creator<Post> = object : Parcelable.Creator<Post> {
-            override fun createFromParcel(parcelIn: Parcel) = Post(
-                    no=parcelIn.int,
-                    com=parcelIn.string,
-                    email=parcelIn.nullableString,
-                    name=parcelIn.string,
-                    capcode=parcelIn.nullableString,
-                    trip=parcelIn.nullableString,
-                    sub=parcelIn.nullableString,
-                    time=parcelIn.int,
-                    replies=parcelIn.int,
-                    sticky=parcelIn.int,
-                    locked=parcelIn.int,
-                    lastModified = parcelIn.int)
-            override fun newArray(size: Int) = arrayOfNulls<Post>(size)
-        }
-    }
-
+        private val lastModified: Int) : Serializable {
     @Transient val id by lazy { no }
     @Transient val title by lazy { sub?.fromHtml }
     @Transient val isSticky by lazy { sticky == 1 }
@@ -56,22 +33,5 @@ public data class Post(
         header.fromHtml
     }
 
-    private constructor() : this(0, "", null, "", null, null, null, 0, 0, 0, 0, 0)
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.int = no
-        dest.string = com
-        dest.nullableString = email
-        dest.string = name
-        dest.nullableString = capcode
-        dest.nullableString = trip
-        dest.nullableString = sub
-        dest.int = time
-        dest.int = replies
-        dest.int = sticky
-        dest.int = locked
-        dest.int = lastModified
-    }
+    constructor() : this(0, "", null, "", null, null, null, 0, 0, 0, 0, 0)
 }

@@ -1,6 +1,5 @@
 package org.channelsurfer.android.posts
 
-import android.os.Parcel
 import com.github.salomonbrys.kotson.fromJson
 import org.channelsurfer.android.BuildConfig
 import org.channelsurfer.android.base.unixTime
@@ -29,7 +28,7 @@ public class PostTest {
         }
         """
 
-        val post = gson.fromJson<Post>(json)!!;
+        val post = gson.fromJson<Post>(json)!!
         assertEquals(post.id, 1)
         assertEquals(post.body.toString(), "Sample 2")
         assertEquals(post.createdAt.unixTime, now.unixTime)
@@ -37,15 +36,5 @@ public class PostTest {
         assertTrue(post.isSticky)
         assertTrue(post.isLocked)
         assertEquals(post.updatedAt.unixTime, now.unixTime)
-    }
-
-    @Test fun parcel() {
-        val parcel = Parcel.obtain()
-        val post1 = createSamplePost()
-        post1.writeToParcel(parcel, flags=0)
-        parcel.setDataPosition(0)
-
-        val post2 = Post.CREATOR.createFromParcel(parcel)
-        assertEquals(post1, post2)
     }
 }
