@@ -40,14 +40,14 @@ public data class Post(
         }
     }
 
-    val id by lazy { no }
-    val title by lazy { sub?.fromHtml }
-    val isSticky by lazy { sticky == 1 }
-    val isLocked by lazy { locked == 1 }
-    val createdAt by lazy { Date(time.toLong() * 1000) }
-    val updatedAt by lazy { Date(lastModified.toLong() * 1000) }
-    val body by lazy { com.fromHtml }
-    val header by lazy {
+    @Transient val id by lazy { no }
+    @Transient val title by lazy { sub?.fromHtml }
+    @Transient val isSticky by lazy { sticky == 1 }
+    @Transient val isLocked by lazy { locked == 1 }
+    @Transient val createdAt by lazy { Date(time.toLong() * 1000) }
+    @Transient val updatedAt by lazy { Date(lastModified.toLong() * 1000) }
+    @Transient val body by lazy { com.fromHtml }
+    @Transient val header by lazy {
         var header = name
         if(trip != null) header += trip
         if(email != null) header = "<a href=\"mailto:$email\">$header</a>"
