@@ -6,7 +6,9 @@ import android.graphics.drawable.Drawable
 import android.text.Html
 import android.view.ViewManager
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.mikepenz.iconics.view.IconicsTextView
 import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.internals.AnkoInternals
@@ -14,6 +16,8 @@ import org.ocpsoft.prettytime.PrettyTime
 import java.util.*
 
 private var globalRequestQueue: RequestQueue? = null
+
+val gson = createGson {}
 
 val Date.unixTime: Int get() = (time / 1000).toInt()
 
@@ -37,6 +41,13 @@ val String.fromHtml: CharSequence get() = with(Html.fromHtml(this)) {
     while(start < end && Character.isWhitespace(charAt(start))) start++
     while(end > start && Character.isWhitespace(charAt(end - 1))) end--
     return subSequence(start, end)
+}
+
+fun createGson(configureBuilder: GsonBuilder.() -> Unit): Gson {
+    val builder = GsonBuilder()
+    builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+    builder.configureBuilder()
+    return builder.create()
 }
 
 inline fun <reified T : Activity> Activity.startActivity(vararg params: Pair<String, Any>) {

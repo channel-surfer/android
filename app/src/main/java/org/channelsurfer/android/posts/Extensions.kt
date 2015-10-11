@@ -3,36 +3,29 @@ package org.channelsurfer.android.posts
 import android.content.Context
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.simpleDeserialize
-import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import org.channelsurfer.android.base.*
+import org.channelsurfer.android.base.createGson
+import org.channelsurfer.android.base.globalNetwork
 
-val gson: Gson = run {
-    val builder = GsonBuilder()
-    builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-    builder.simpleDeserialize {
+private val gson: Gson = createGson {
+    simpleDeserialize {
         it.asJsonArray.flatMap {
             it.asJsonObject.getAsJsonArray("threads").map { gson.fromJson<Post>(it)!! }
         }
     }
-    builder.create()
 }
 
 // TODO Change later to be a Network extension instead of Context extension
 fun Context.fetchPosts(callback: (List<Post>?, Exception?) -> Unit) {
     globalNetwork.string(url="https://8ch.net/tech/catalog.json") { response, error ->
-        if(error == null && response != null) {
-            val posts = gson.fromJson<List<Post>>(response)
-            // TODO Remove later as this is temporary caching. This also means context is no longer directly needed
+        val posts = if(response != null) gson.fromJson<List<Post>>(response) else null
+        // TODO Remove later as this is temporary caching. This also means context is no longer directly needed
+        if(posts != null) {
             val editor = getSharedPreferences("threads", Context.MODE_PRIVATE).edit()
             editor.putString("threads", response)
             editor.commit()
-            callback(posts, error)
         }
-        else {
-            callback(null, error);
-        }
+        callback(posts, error)
     }
 }
 

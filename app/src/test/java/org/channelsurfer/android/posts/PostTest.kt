@@ -2,6 +2,7 @@ package org.channelsurfer.android.posts
 
 import com.github.salomonbrys.kotson.fromJson
 import org.channelsurfer.android.BuildConfig
+import org.channelsurfer.android.base.gson
 import org.channelsurfer.android.base.unixTime
 import org.junit.Test
 import org.junit.runner.RunWith
