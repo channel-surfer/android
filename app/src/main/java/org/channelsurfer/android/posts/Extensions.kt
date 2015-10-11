@@ -16,11 +16,11 @@ private val gson: Gson = createGson {
 }
 
 // TODO Change later to be a Network extension instead of Context extension
-fun Context.fetchPosts(callback: (List<Post>?, Exception?) -> Unit) {
-    globalNetwork.string(url="https://8ch.net/tech/catalog.json") { response, error ->
+fun Context.fetchPosts(board: String, callback: (List<Post>?, Exception?) -> Unit) {
+    globalNetwork.string(url="https://8ch.net/$board/catalog.json") { response, error ->
         val posts = if(response != null) gson.fromJson<List<Post>>(response) else null
-        // TODO Remove later as this is temporary caching. This also means context is no longer directly needed
-        if(posts != null) {
+        // TODO Remove later as response is temporary caching. This also means context is no longer directly needed
+        if(error != null) {
             val editor = getSharedPreferences("threads", Context.MODE_PRIVATE).edit()
             editor.putString("threads", response)
             editor.commit()
