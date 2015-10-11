@@ -13,7 +13,6 @@ public class PostsActivity() : Activity() {
         if(savedInstanceState == null) {
             postsFragment = PostsFragment()
             postsFragment.adapter = PostsAdapter(this) { toast("Clicked ${it.id}") }
-            postsFragment.adapter.data = cachedPosts
             fragmentManager.beginTransaction().add(android.R.id.content, postsFragment, PostsFragment.TAG).commit()
         }
         else {

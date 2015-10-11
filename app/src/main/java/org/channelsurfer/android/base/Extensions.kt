@@ -18,7 +18,7 @@ import java.util.*
 
 private var globalRequestQueue: RequestQueue? = null
 
-val defaultGson = createGson {}
+val gson = createGson {}
 
 val Date.unixTime: Int get() = (time / 1000).toInt()
 
@@ -29,7 +29,7 @@ val Context.selectableItemBackground: Drawable get() {
     return selectableItemBackground
 }
 
-val Context.globalNetwork: Network get() {
+val Context.network: Network get() {
     globalRequestQueue = globalRequestQueue ?: Volley.newRequestQueue(applicationContext)
     return Network(globalRequestQueue!!)
 }

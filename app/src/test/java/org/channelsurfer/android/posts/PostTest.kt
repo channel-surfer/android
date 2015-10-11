@@ -2,7 +2,7 @@ package org.channelsurfer.android.posts
 
 import com.github.salomonbrys.kotson.fromJson
 import org.channelsurfer.android.BuildConfig
-import org.channelsurfer.android.base.defaultGson
+import org.channelsurfer.android.base.gson
 import org.channelsurfer.android.base.unixTime
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +29,7 @@ public class PostTest {
         }
         """
 
-        val post = defaultGson.fromJson<Post>(json)!!
+        val post = gson.fromJson<Post>(json)!!
         assertEquals(post.id, 1)
         assertEquals(post.body.toString(), "Sample 2")
         assertEquals(post.createdAt.unixTime, now.unixTime)
