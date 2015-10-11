@@ -96,7 +96,6 @@ public class PostsItemView(context: Context) : CardView(context) {
     class Holder(
             private val context: Context,
             private val onClick: (Post) -> Unit = {}) : ViewHolder<Post, PostsItemView>(PostsItemView(context)) {
-
         override fun update(data: Post) {
             view.header.text = data.header
             view.body.text = data.body
