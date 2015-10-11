@@ -18,7 +18,7 @@ import java.util.*
 
 private var globalRequestQueue: RequestQueue? = null
 
-val gson = createGson {}
+val defaultGson = createGson {}
 
 val Date.unixTime: Int get() = (time / 1000).toInt()
 
