@@ -37,7 +37,7 @@ public class Network(private val queue: RequestQueue) {
         return request
     }
 
-    private class Listeners<T>(callback: (T?, VolleyError?) -> Unit) {
+    private class Listeners<T : Any>(callback: (T?, VolleyError?) -> Unit) {
         val listener: Response.Listener<T> = object : Response.Listener<T> {
             override fun onResponse(response: T?) = callback(response, null)
         }
