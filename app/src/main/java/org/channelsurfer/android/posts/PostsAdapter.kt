@@ -3,7 +3,7 @@ package org.channelsurfer.android.posts
 import android.content.Context
 import android.view.ViewGroup
 import com.github.salomonbrys.kotson.fromJson
-import org.channelsurfer.android.base.Adapter
+import org.channelsurfer.android.base.RecyclerAdapter
 import org.channelsurfer.android.base.network
 import org.channelsurfer.android.base.gson
 import org.channelsurfer.android.boards.Board
@@ -12,7 +12,7 @@ import org.jetbrains.anko.uiThread
 
 public class PostsAdapter(
         private val context: Context,
-        private val onClick: (Post) -> Unit = {}) : Adapter<Post, PostsItemView.Holder>() {
+        private val onClick: (Post) -> Unit = {}) : RecyclerAdapter<Post, PostsItemView.Holder>() {
     companion object {
         private val board = Board("tech", "Technology")
     }

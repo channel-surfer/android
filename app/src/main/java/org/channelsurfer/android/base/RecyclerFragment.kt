@@ -19,8 +19,8 @@ public open class RecyclerFragment<T, U : ViewHolder<T, *>> : Fragment() {
     private var defaultLayoutManager: RecyclerView.LayoutManager? = null
     lateinit var recyclerView: RecyclerView private set
     @Suppress("UNCHECKED_CAST")
-    var adapter: Adapter<T, U> = Adapter()
-        get() = if(view != null) recyclerView.adapter as Adapter<T, U> else field
+    var adapter: RecyclerAdapter<T, U> = RecyclerAdapter()
+        get() = if(view != null) recyclerView.adapter as RecyclerAdapter<T, U> else field
         set(value) = if(view != null) recyclerView.adapter = value else field = value
     var layoutManager: RecyclerView.LayoutManager
         get() = if(view != null) recyclerView.layoutManager else {

@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import kotlin.properties.Delegates
 
-public open class Adapter<T, U : ViewHolder<T, *>> : RecyclerView.Adapter<U>() {
+public open class RecyclerAdapter<T, U : ViewHolder<T, *>> : RecyclerView.Adapter<U>() {
     var data: List<T> by Delegates.observable(emptyList()) { prop, old, new -> if(old != new) notifyDataSetChanged() }
 
     open fun update(callback: (Exception?) -> Unit = {}) = callback(null)

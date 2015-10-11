@@ -18,8 +18,8 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricGradleTestRunner::class)
 @Config(constants = BuildConfig::class)
-public class AdapterTest {
-    val adapter = object : Adapter<Post, ViewHolder>() {
+public class RecyclerAdapterTest {
+    val adapter = object : RecyclerAdapter<Post, ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
             return ViewHolder(RuntimeEnvironment.application.applicationContext)
         }
