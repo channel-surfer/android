@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.text.Html
 import android.view.ViewManager
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
