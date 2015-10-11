@@ -41,6 +41,7 @@ dependencies {
     compile 'com.mikepenz:iconics-core:1.7.6@aar'
     compile 'com.mikepenz:google-material-typeface:1.2.0.1@aar'
     compile 'com.mikepenz:community-material-typeface:1.2.64.1@aar'
+    compile 'nl.qbusict:cupboard:2.1.4'
     compile 'org.jetbrains.anko:anko-sdk15:0.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.ocpsoft.prettytime:prettytime:4.0.0.Final'
