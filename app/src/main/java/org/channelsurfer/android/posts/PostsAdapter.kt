@@ -6,7 +6,6 @@ import org.channelsurfer.android.base.RecyclerAdapter
 import org.channelsurfer.android.base.network
 import org.channelsurfer.android.boards.Board
 import org.channelsurfer.android.database.database
-import org.channelsurfer.android.database.plusAssign
 import org.jetbrains.anko.async
 import org.jetbrains.anko.uiThread
 
