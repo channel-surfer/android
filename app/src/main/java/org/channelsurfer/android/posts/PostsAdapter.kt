@@ -25,7 +25,6 @@ public class PostsAdapter(
 
     override fun update(callback: (Exception?) -> Unit) {
         async {
-            database += board
             network.getPosts(board) { posts, error ->
                 uiThread {
                     if(posts != null) {
