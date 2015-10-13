@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import org.channelsurfer.android.base.RecyclerAdapter
 import org.channelsurfer.android.base.network
 import org.channelsurfer.android.boards.Board
+import org.channelsurfer.android.database.database
+import org.channelsurfer.android.database.plusAssign
 import org.jetbrains.anko.async
 import org.jetbrains.anko.uiThread
 
@@ -14,17 +16,20 @@ public class PostsAdapter(
     companion object {
         private val board = Board("tech", "Technology")
     }
+    private val network = context.network
+    private val database = context.database
 
-    init { data = context.cachedPosts }
+    init { data = database.posts }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = PostsItemView.Holder(context) { onClick(it) }
 
     override fun update(callback: (Exception?) -> Unit) {
         async {
-            context.network.getPosts(board) { posts, error ->
+            database += board
+            network.getPosts(board) { posts, error ->
                 uiThread {
                     if(posts != null) {
-                        context.cachedPosts = posts
+                        database.posts = posts
                         data = posts
                     }
                     callback(error)
