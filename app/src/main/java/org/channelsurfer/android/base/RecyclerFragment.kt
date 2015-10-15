@@ -39,6 +39,11 @@ public open class RecyclerFragment<T, U : ViewHolder<T, *>> : Fragment() {
         recyclerView
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if(savedInstanceState == null) adapter.initialize()
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

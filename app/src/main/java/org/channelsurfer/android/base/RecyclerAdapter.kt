@@ -7,6 +7,7 @@ import kotlin.properties.Delegates
 public open class RecyclerAdapter<T, U : ViewHolder<T, *>> : RecyclerView.Adapter<U>() {
     var data: List<T> by Delegates.observable(emptyList()) { prop, old, new -> if(old != new) notifyDataSetChanged() }
 
+    open fun initialize() {}
     open fun update(callback: (Exception?) -> Unit = {}) = callback(null)
     override fun getItemCount() = data.size()
     override fun onBindViewHolder(holder: U, position: Int) = holder.update(data[position])

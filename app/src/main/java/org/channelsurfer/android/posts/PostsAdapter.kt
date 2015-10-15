@@ -13,19 +13,16 @@ import org.jetbrains.anko.uiThread
 public class PostsAdapter(
         private val context: Context,
         private val onClick: (Post) -> Unit = {}) : RecyclerAdapter<Post, PostsItemView.Holder>() {
-    companion object {
-        private val board = Board("tech", "Technology")
-    }
     private val network = context.network
     private val database = context.database
 
-    init { data = database.posts.all }
+    override fun initialize() { data = database.posts.all }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) = PostsItemView.Holder(context) { onClick(it) }
 
     override fun update(callback: (Exception?) -> Unit) {
         async {
-            network.getPosts(board) { posts, error ->
+            network.getPosts(Board("tech", "Technology")) { posts, error ->
                 if(posts != null) database.posts.all = posts
                 uiThread {
                     if(posts != null) data = posts
