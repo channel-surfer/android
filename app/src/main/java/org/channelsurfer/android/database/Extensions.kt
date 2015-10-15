@@ -1,40 +1,30 @@
 package org.channelsurfer.android.database
 
 import android.content.Context
-import nl.qbusict.cupboard.CupboardFactory
-import nl.qbusict.cupboard.DatabaseCompartment
-import nl.qbusict.cupboard.DatabaseCompartment.QueryBuilder
-import nl.qbusict.cupboard.QueryResultIterable
-import org.channelsurfer.android.boards.Board
-import org.channelsurfer.android.posts.Post
+import com.j256.ormlite.dao.Dao
+import com.j256.ormlite.support.ConnectionSource
+import com.j256.ormlite.table.TableUtils
 
 val FILENAME = "database.db"
 val VERSION = 1
 
-private var globalDatabase: DatabaseCompartment? = null
+private var globalDatabase: DatabaseHelper? = null
 
-val cupboard = with(CupboardFactory.cupboard()) {
-    register(Post::class.java)
-    register(Board::class.java)
-    this
-}
-
-val Context.database: DatabaseCompartment get() {
-    globalDatabase = globalDatabase ?: DatabaseHelper(applicationContext).database
+val Context.database: DatabaseHelper get() {
+    globalDatabase = globalDatabase ?: DatabaseHelper(applicationContext)
     return globalDatabase!!
 }
 
-inline fun <reified T : Any> DatabaseCompartment.entities(builder: QueryBuilder<T>.() -> QueryBuilder<T>): List<T> {
-    val cursor = query(T::class.java).builder().cursor
-    val boards: List<T>
-    var iterator: QueryResultIterable<T>? = null
-    try {
-        iterator = cupboard.withCursor(cursor).iterate(T::class.java)
-        boards = iterator.list()
-    }
-    finally {
-        iterator?.close()
-    }
-    return boards
-}
+var <T> Dao<T, *>.all: List<T>
+    get() = queryForAll()
+    set(value) { callBatchTasks {
+        value.forEach { create(it) }
+    }}
 
+inline fun <reified T : Any> ConnectionSource.createTable() = TableUtils.createTable(this, T::class.java);
+
+operator fun <T, ID> Dao<T, ID>.get(id: ID) = queryForId(id)
+
+operator fun <T> Dao<T, *>.plusAssign(row: T) {
+    createOrUpdate(row)
+}

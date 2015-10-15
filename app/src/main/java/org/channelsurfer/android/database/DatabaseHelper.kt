@@ -2,16 +2,21 @@ package org.channelsurfer.android.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
+import com.j256.ormlite.dao.Dao
+import com.j256.ormlite.support.ConnectionSource
+import org.channelsurfer.android.boards.Board
+import org.channelsurfer.android.posts.Post
+import java.util.*
 
-public class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, FILENAME, null, VERSION) {
-    val database by lazy { cupboard.withDatabase(writableDatabase) }
+public class DatabaseHelper(context: Context) : OrmLiteSqliteOpenHelper(context, FILENAME, null, VERSION) {
+    @Suppress("UNCHECKED_CAST") val boards by lazy { getDao(Board::class.java) as Dao<Board, UUID> }
+    @Suppress("UNCHECKED_CAST") val posts by lazy { getDao(Post::class.java) as Dao<Post, UUID> }
 
-    override fun onCreate(db: SQLiteDatabase) {
-        cupboard.withDatabase(db).createTables()
+    override fun onCreate(database: SQLiteDatabase, connectionSource: ConnectionSource) {
+        connectionSource.createTable<Post>()
+        connectionSource.createTable<Board>()
     }
 
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        cupboard.withDatabase(db).upgradeTables()
-    }
+    override fun onUpgrade(database: SQLiteDatabase, connectionSource: ConnectionSource, oldVersion: Int, newVersion: Int) {}
 }

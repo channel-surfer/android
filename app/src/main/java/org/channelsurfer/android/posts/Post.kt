@@ -16,7 +16,8 @@ public data class Post(
         val replies: Int,
         private val sticky: Int,
         private val locked: Int,
-        private val lastModified: Int) : Serializable {
+        private val lastModified: Int,
+        private val uuid: UUID? = null) : Serializable {
     @Transient val id by lazy { no }
     @Transient val title by lazy { sub?.fromHtml }
     @Transient val isSticky by lazy { sticky == 1 }
