@@ -2,6 +2,7 @@ package org.channelsurfer.android.posts
 
 import com.j256.ormlite.field.DatabaseField
 import org.channelsurfer.android.base.fromHtml
+import org.channelsurfer.android.boards.Board
 import java.io.Serializable
 import java.util.*
 
@@ -18,9 +19,9 @@ public data class Post(
         @DatabaseField private val sticky: Int,
         @DatabaseField private val locked: Int,
         @DatabaseField private val lastModified: Int,
-        @DatabaseField(generatedId=true) private val uuid: UUID? = null,
-        @DatabaseField private val save: Boolean = false) : Serializable {
-    @Transient val id by lazy { no }
+        @DatabaseField private val save: Boolean = false,
+        @DatabaseField(foreign=true) private val board: Board = Board()) : Serializable {
+    @DatabaseField(id=true) val id = "${board.id}|$no"
     @Transient val title by lazy { sub?.fromHtml }
     @Transient val isSticky by lazy { sticky == 1 }
     @Transient val isLocked by lazy { locked == 1 }
@@ -32,7 +33,7 @@ public data class Post(
         if(trip != null) header += trip
         if(email != null) header = "<a href=\"mailto:$email\">$header</a>"
         if(capcode != null) header += " ## $capcode"
-        header = "<b>$id</b> - $header"
+        header = "<b>$no</b> - $header"
         header.fromHtml
     }
 

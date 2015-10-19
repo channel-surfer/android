@@ -4,7 +4,6 @@ import android.content.Context
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
-import java.util.*
 
 val FILENAME = "database.db"
 val VERSION = 1
@@ -16,10 +15,10 @@ val Context.database: DatabaseHelper get() {
     return globalDatabase!!
 }
 
-var <T> Dao<T, UUID>.all: List<T>
+var <T> Dao<T, String>.all: List<T>
     get() = queryForAll()
     set(value) { callBatchTasks {
-        deleteBuilder().where().isNotNull("uuid")
+        deleteBuilder().where().isNotNull("id")
         deleteBuilder().delete()
         value.forEach { createOrUpdate(it) }
     }}
