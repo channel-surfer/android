@@ -15,7 +15,7 @@ val Context.database: DatabaseHelper get() {
     return globalDatabase!!
 }
 
-var <T> Dao<T, String>.all: List<T>
+var <T> Dao<T, *>.all: List<T>
     get() = queryForAll()
     set(value) { callBatchTasks {
         deleteBuilder().where().isNotNull("id")
