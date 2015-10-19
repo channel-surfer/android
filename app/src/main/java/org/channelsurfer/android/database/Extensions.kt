@@ -25,7 +25,7 @@ var <T> Dao<T, *>.all: List<T>
 
 inline fun <reified T : Any> ConnectionSource.createTable() = TableUtils.createTable(this, T::class.java);
 
-operator fun <T, ID> Dao<T, ID>.get(id: ID) = queryForId(id)
+operator fun <ID> Dao<*, ID>.get(id: ID) = queryForId(id)
 
 operator fun <T> Dao<T, *>.plusAssign(row: T) {
     createOrUpdate(row)
