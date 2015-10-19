@@ -8,6 +8,7 @@ import org.channelsurfer.android.base.Network
 import org.channelsurfer.android.base.createGson
 import org.channelsurfer.android.base.gson
 import org.channelsurfer.android.boards.Board
+import org.channelsurfer.android.database.all
 
 private val fetchGson: Gson = createGson {
     simpleDeserialize {
@@ -22,7 +23,7 @@ operator fun Dao<Post, *>.get(board: Board): List<Post> = queryForEq("board_id",
 operator fun Dao<Post, *>.set(board: Board, posts: List<Post>) = callBatchTasks {
     deleteBuilder().where().eq("board_id", board.id).and().eq("save", false)
     deleteBuilder().delete()
-    posts.forEach { createOrUpdate(it.copy(board=board)) }
+    all += posts.map { it.copy(board=board) }
 }
 
 val Board.postsUrl: String get() = "https://8ch.net/$name/catalog.json"
