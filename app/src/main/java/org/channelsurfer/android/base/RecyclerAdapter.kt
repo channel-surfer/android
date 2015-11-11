@@ -9,7 +9,7 @@ public open class RecyclerAdapter<T, U : ViewHolder<T, *>> : RecyclerView.Adapte
 
     open fun initialize() {}
     open fun update(callback: (Exception?) -> Unit = {}) = callback(null)
-    override fun getItemCount() = data.size()
+    override fun getItemCount() = data.size
     override fun onBindViewHolder(holder: U, position: Int) = holder.update(data[position])
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): U? = null
 }

@@ -17,7 +17,14 @@ public open class RecyclerFragment<T, U : ViewHolder<T, *>> : Fragment() {
     }
 
     private var defaultLayoutManager: RecyclerView.LayoutManager? = null
-    lateinit var recyclerView: RecyclerView private set
+    val recyclerView by lazy {
+        val view = RecyclerView(activity)
+        view.clipToPadding = false
+        view.verticalPadding = dip(8)
+        view.adapter = adapter
+        view.layoutManager = layoutManager
+        view
+    }
     @Suppress("UNCHECKED_CAST")
     var adapter: RecyclerAdapter<T, U> = RecyclerAdapter()
         get() = if(view != null) recyclerView.adapter as RecyclerAdapter<T, U> else field
@@ -30,11 +37,6 @@ public open class RecyclerFragment<T, U : ViewHolder<T, *>> : Fragment() {
         set(value) = if(view != null) recyclerView.layoutManager = value else defaultLayoutManager = value
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?) = view ?: run {
-        recyclerView = RecyclerView(activity)
-        recyclerView.clipToPadding = false
-        recyclerView.verticalPadding = dip(8)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
         defaultLayoutManager = null
         recyclerView
     }

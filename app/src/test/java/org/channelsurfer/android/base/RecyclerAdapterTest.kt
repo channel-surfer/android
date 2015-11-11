@@ -49,9 +49,9 @@ public class RecyclerAdapterTest {
     }
 
     @Test fun properties() {
-        assertEquals(adapter.data.size(), adapter.itemCount)
+        assertEquals(adapter.data.size, adapter.itemCount)
         adapter.data += listOf(Post(), Post(), Post())
-        assertEquals(adapter.data.size(), adapter.itemCount)
+        assertEquals(adapter.data.size, adapter.itemCount)
     }
 
     class ViewHolder(context: Context) : org.channelsurfer.android.base.ViewHolder<Post, TextView>(TextView(context)) {

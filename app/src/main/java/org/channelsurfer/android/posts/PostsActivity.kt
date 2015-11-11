@@ -12,8 +12,8 @@ import org.jetbrains.anko.uiThread
 
 public class PostsActivity() : Activity() {
     private var isRunning = false
-    lateinit var postsFragment: PostsFragment private set
-    lateinit var postsAdapter: PostsAdapter private set
+    private lateinit var postsFragment: PostsFragment
+    private lateinit var postsAdapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

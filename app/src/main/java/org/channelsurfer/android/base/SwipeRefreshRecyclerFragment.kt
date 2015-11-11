@@ -10,11 +10,12 @@ import java.io.Serializable
 
 public open class SwipeRefreshRecyclerFragment<T : Serializable, U : ViewHolder<T, *>>(
         private val onUpdated: (Exception?) -> Unit = {}) : RecyclerFragment<T, U>() {
-    lateinit var swipeView: SwipeRefreshLayout private set
+    private lateinit var internalSwipeView: SwipeRefreshLayout
+    val swipeView: SwipeRefreshLayout get() = internalSwipeView
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return view ?: run {
-            swipeView = SwipeRefreshView(super.onCreateView(inflater, container, savedInstanceState))
+            internalSwipeView = SwipeRefreshView(super.onCreateView(inflater, container, savedInstanceState))
             swipeView.setOnRefreshListener {
                 adapter.update {
                     swipeView.isRefreshing = false

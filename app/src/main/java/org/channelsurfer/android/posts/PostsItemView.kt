@@ -18,13 +18,13 @@ public class PostsItemView(context: Context) : CardView(context) {
     companion object {
         private val PADDING = 4
     }
-    lateinit var body: TextView private set
-    lateinit var title: TextView private set
-    lateinit var sticky: IconicsTextView private set
-    lateinit var locked: IconicsTextView private set
-    lateinit var header: TextView private set
-    lateinit var date: TextView private set
-    lateinit var replies: TextView private set
+    private lateinit var title: TextView
+    private lateinit var sticky: IconicsTextView
+    private lateinit var locked: IconicsTextView
+    private lateinit var header: TextView
+    private lateinit var date: TextView
+    private lateinit var replies: TextView
+    lateinit var body: TextView
 
     init {
         val headerBackground = TypedValue()

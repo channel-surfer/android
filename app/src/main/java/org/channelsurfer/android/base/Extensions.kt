@@ -38,9 +38,9 @@ val Context.themeResId: Int get() = javaClass.getMethod("getThemeResId").invoke(
 
 val String.fromHtml: CharSequence get() = with(Html.fromHtml(this)) {
     var start = 0
-    var end = length()
-    while(start < end && Character.isWhitespace(charAt(start))) start++
-    while(end > start && Character.isWhitespace(charAt(end - 1))) end--
+    var end = length
+    while(start < end && Character.isWhitespace(get(start))) start++
+    while(end > start && Character.isWhitespace(get(end - 1))) end--
     return subSequence(start, end)
 }
 
